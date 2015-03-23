@@ -35,20 +35,69 @@
 <body>
 <h1>我的计算器</h1>
 <hr>
-<form action="ResultCal.jsp" name="form1">
-请输入第一个数：<input type="text" name="num1"><br>
+
+
+<!-- 以下为在jsp中嵌入java代码 -->
+<%
+
+//接收第一个数
+String s_num1=request.getParameter("num1");
+
+//接收第二个数
+String s_num2=request.getParameter("num2");
+
+//接收运算符
+String s_flag=request.getParameter("flag");
+
+int num1=0;
+int num2=0;
+
+//result可以在jsp中使用，" <%=?????> ",?????为java的表达式
+int result=0;
+
+//为了防止异常的发生，做一个处理
+//java中将String转为int
+if((s_num1!=null)&&(s_num2!=null)&&(s_flag!=null)){
+	num1=Integer.parseInt(s_num1);
+	num2=Integer.parseInt(s_num2);
+
+	//计算
+	if(s_flag.equals("+")){
+		result=num1+num2;
+	}else if(s_flag.equals("-")){
+		result=num1-num2;
+	}else if(s_flag.equals("*")){
+		result=num1*num2;
+	}else{
+		result=num1/num2;
+	}
+
+}
+//输出结果
+//out.println("结果是："+result);
+
+%>
+
+<form action="InterfaceCal.jsp" name="form1">
+请输入第一个数：<input type="text" size="6" name="num1"  <%=num2 %>><br>
 <select name="flag">
 <option value="+">+</option>
 <option value="-">-</option>
 <option value="*">*</option>
 <option value="/">/</option>
 </select><br>
-请输入第二个数：<input type="text" name="num2"><br>
+请输入第二个数：<input type="text" size="6" name="num2" value=<%=num2 %>><br>
 
 <!-- onclick事件返回false，表单就不会被提交给ResultCal.jsp -->
 <input type="submit" value="计算" onclick="return checkNum()">
 
 </form><br>
 <hr>
+
+
+
+<!-- 这里输出计算的结果 -->
+结果是：<%=result %><!-- 表达式语法 -->
+
 </body>
 </html>
